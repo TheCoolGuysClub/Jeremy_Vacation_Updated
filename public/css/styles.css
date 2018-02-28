@@ -14,19 +14,19 @@ header {
 }
 .tab {
   font-size: 35px;
-  color: gold;
+  color: blue;
 
-  border: solid grey;
-  border-radius: 9px;
+  /* border: solid grey;
+  border-radius: 9px; */
   padding: 5px;
 }
 
 #image_section {
   width: 88vw;
   height: 450px;
-
-  border: solid gold;
-  border-radius: 20px;
+/*
+  border: solid blue;
+  border-radius: 10px; */
 
   overflow: hidden;
 }
@@ -43,8 +43,8 @@ header {
   right: 20vw;
 }
 img {
-  width: 380px;
-  height: 290px;
+  width: 30%;
+  height: 150px;
 
   margin-left:4px;
   margin-right: 4px;

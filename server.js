@@ -14,6 +14,9 @@ hbs.registerHelper('getYear', () => {
   return new Date().getFullYear();
 })
 
+app.get(`/`,(req,res)=>{
+  res.redirect(`/vacation`);
+})
 
 app.get('/vacation', (req, res) => {
   const destination = req.query.destination;
