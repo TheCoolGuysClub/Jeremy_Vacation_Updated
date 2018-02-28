@@ -15,7 +15,7 @@ hbs.registerHelper('getYear', () => {
 })
 
 app.get(`/`,(req,res)=>{
-  res.redirect(`/vacation`);
+  res.redirect(`http://localhost:3000/vacation?destination=Hawaii`);
 })
 
 app.get('/vacation', (req, res) => {
