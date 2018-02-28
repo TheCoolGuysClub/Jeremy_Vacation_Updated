@@ -2,8 +2,8 @@ const express = require('express');
 const hbs = require('hbs');
 const path = require('path');
 
-const geocode = require("./Geocode/geocode.js")
-const weather = require("./Weather/weather.js")
+const geocode = require("./geocode/geocode.js")
+const weather = require("./weather/weather.js")
 
 
 const app = express();
@@ -15,65 +15,71 @@ hbs.registerHelper('getYear', () => {
 })
 
 
-geocode.get_weatherurl("Hawaii")
-  .then(response => {
-    const lat = response.data.results[0].geometry.location.lat;
-    const lng = response.data.results[0].geometry.location.lng;
-    return weather.get_weather(lat, lng);
-  })
-  .then(response => {
-    hawaii_temp = response.data.currently.temperature;
-    app.get('/', (req, res) => {
-      res.render('index.hbs', {
-        pageTitle: "Vacation",
-        name: "Jim",
-        hawaii_temp,
-        img1: "https://www.hawaiidiscount.com/blog/wp-content/uploads/2015/12/turkey-852044_1920.jpg",
-        img2: "https://hawaiistateparks.org/wp-content/uploads/2016/07/relax_hawaii.jpg",
-        img3: "https://imagesvc.timeincapp.com/v3/mm/image?url=http%3A%2F%2Fcdn-image.travelandleisure.com%2Fsites%2Fdefault%2Ffiles%2Fstyles%2F1600x1000%2Fpublic%2F1502722460%2Fhanauma-bay-nature-preserve-oahu-hawaii-HAWAIIFLIGHTDEAL0817.jpg%3Fitok%3D5RHXufdE&w=800&q=85"
-      })
-    })
-  })
-geocode.get_weatherurl("Athen")
-  .then(response => {
-    const lat = response.data.results[0].geometry.location.lat;
-    const lng = response.data.results[0].geometry.location.lng;
-    return weather.get_weather(lat, lng);
-  })
-  .then(response => {
-    const athen_temp = response.data.currently.temperature;
-    app.get('/athen', (req, res) => {
-      res.render('index.hbs', {
-        pageTitle: "Vacation",
-        name: "Jim",
-        athen_temp,
-        img1: "https://cdn.theculturetrip.com/images/56-3965740-1443616056b9ef352f0b524c6c9891f4e078e860b0.jpg",
-        img2: "https://www.dnb.no/portalfront/bilder-dnb/bedrift/steder/Athen-Acropoli-iStock-000013261014-920-360.jpg",
-        img3: "http://www.display-magazin.ch/wp-content/uploads/2016/09/Athen-Display-Magazin_4.jpg"
-      })
-    })
-  })
-geocode.get_weatherurl("Rome")
-  .then(response => {
-    const lat = response.data.results[0].geometry.location.lat;
-    const lng = response.data.results[0].geometry.location.lng;
-    return weather.get_weather(lat, lng);
-  })
-  .then(response => {
-    const rome_temp = response.data.currently.temperature;
-    app.get('/rome', (req, res) => {
-      res.render('index.hbs', {
-        pageTitle: "Vacation",
-        name: "Jim",
-        rome_temp,
-        img1: "http://nohopizza.com/images/pizzas/p_meatlover.jpg",
-        img2: "https://fthmb.tqn.com/J7d-8X28kFMGvvi6FDY9DpE6tzw=/960x0/filters:no_upscale()/the-roman-coliseum-during-a-warm-spring-sunset-542105331-58f15ac63df78cd3fc763275.jpg",
-        img3: "http://www.telegraph.co.uk/content/dam/travel/Spark/Holiday%20hunter/saga-trevi-fountain-xlarge.jpg"
-      })
-    })
-  })
+app.get('/vacation', (req, res) => {
+  const destination = req.query.destination;
 
+  if (destination === 'Hawaii') {
 
+    geocode.get_weatherurl("Hawaii")
+      .then(response => {
+        const lat = response.data.results[0].geometry.location.lat;
+        const lng = response.data.results[0].geometry.location.lng;
+        return weather.get_weather(lat, lng);
+      })
+      .then(response => {
+        const hawaii_temp = response.data.currently.temperature;
+        res.render('index.hbs', {
+          pageTitle: "Vacation",
+          name: "Jeremy",
+          hawaii_temp,
+          img1: "https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-9/12994335_10154121447156624_4996192837104744752_n.jpg?oh=d6a2353c72e9bbae449f08d3b8ef5f13&oe=5B032058",
+          img2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIqjLQQPyJxRn4ZhcZ7lD-33-3mnV3kbjpKlRG69GQVuuZezh-pg",
+          img3: "https://hawaii.imgix.net/2014/05/beach-84533_1280.jpg?w=800&h=450&fit=crop&=entropy&auto=format"
+        })
+      })
+
+  } else if (destination === 'Venice') {
+
+    geocode.get_weatherurl("Venice")
+      .then(response => {
+        const lat = response.data.results[0].geometry.location.lat;
+        const lng = response.data.results[0].geometry.location.lng;
+        return weather.get_weather(lat, lng);
+      })
+      .then(response => {
+        const venice_temp = response.data.currently.temperature;
+        res.render('index.hbs', {
+          pageTitle: "Vacation",
+          name: "Jeremy",
+          venice_temp,
+          img1: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Rio_di_Ca_Foscari%2C_to_the_Bridge_Santa_Margherita_%28Venice%29.jpg/220px-Rio_di_Ca_Foscari%2C_to_the_Bridge_Santa_Margherita_%28Venice%29.jpg",
+          img2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUJjJREI5YVKC4I2uv7N-pkPBnnSWrasjcsGBpEx-GPW5SQPTX",
+          img3: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXKgajM9138SlvzdfLv--TlpYjzMn2b2H9Q2tghV44ofpAbppXig"
+        })
+      })
+
+  } else if (destination === 'Tokyo') {
+
+    geocode.get_weatherurl("Tokyo")
+      .then(response => {
+        const lat = response.data.results[0].geometry.location.lat;
+        const lng = response.data.results[0].geometry.location.lng;
+        return weather.get_weather(lat, lng);
+      })
+      .then(response => {
+        const tokyo_temp = response.data.currently.temperature;
+        res.render('index.hbs', {
+          pageTitle: "Vacation",
+          name: "Jeremy",
+          tokyo_temp,
+          img1: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Tokyo_Tower_at_night_8.JPG/220px-Tokyo_Tower_at_night_8.JPG",
+          img2: "https://www.japan-guide.com/thumb/XYZeXYZe3064_375.jpg",
+          img3: "http://ichef.bbci.co.uk/wwfeatures/wm/live/1280_640/images/live/p0/3b/0c/p03b0ckb.jpg"
+        })
+      })
+
+  }
+})
 
 
 
